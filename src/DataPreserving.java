@@ -22,7 +22,7 @@ public class DataPreserving {
 
     static public void Save(Days days) throws IOException {
         try {
-            fileOutputStreamDay = new FileOutputStream("Days.out");
+            fileOutputStreamDay = new FileOutputStream("data/Days.out");
             objectOutputStreamDay = new ObjectOutputStream(fileOutputStreamDay);
             objectOutputStreamDay.writeObject(days);
             objectOutputStreamDay.flush();
@@ -34,7 +34,7 @@ public class DataPreserving {
 
     static public void Save(ExerciseSet exerciseSet) throws IOException {
         try {
-            fileOutputStreamExerciseSet = new FileOutputStream("ExerciseSet.out");
+            fileOutputStreamExerciseSet = new FileOutputStream("data/ExerciseSet.out");
             objectOutputStreamExerciseSet = new ObjectOutputStream(fileOutputStreamExerciseSet);
             objectOutputStreamExerciseSet.writeObject(exerciseSet);
             objectOutputStreamExerciseSet.flush();
@@ -47,7 +47,7 @@ public class DataPreserving {
 
     static void Save(TrainingPlan trainingPlan) throws IOException {
         try {
-            fileOutputStreamTrainingPlan = new FileOutputStream("TrainingPlan.out");
+            fileOutputStreamTrainingPlan = new FileOutputStream("data/TrainingPlan.out");
             objectOutputStreamTrainingPlan = new ObjectOutputStream(fileOutputStreamTrainingPlan);
             objectOutputStreamTrainingPlan.writeObject(trainingPlan);
             objectOutputStreamTrainingPlan.flush();
@@ -60,20 +60,20 @@ public class DataPreserving {
     //Методы для чтения данных из файлов
 
     static Days ReadDays() throws IOException, ClassNotFoundException {
-        fileInputStreamDay = new FileInputStream("Days.out");
+        fileInputStreamDay = new FileInputStream("data/Days.out");
         objectInputStreamDay = new ObjectInputStream(fileInputStreamDay);
         return (Days) objectInputStreamDay.readObject();
     }
 
     static public ExerciseSet ReadExerciseSet() throws IOException, ClassNotFoundException {
 
-        fileInputStreamExerciseSet = new FileInputStream("ExerciseSet.out");
+        fileInputStreamExerciseSet = new FileInputStream("data/ExerciseSet.out");
         objectInputStreamExerciseSet = new ObjectInputStream(fileInputStreamExerciseSet);
         return ((ExerciseSet) objectInputStreamExerciseSet.readObject());
     }
 
     static TrainingPlan ReadTrainingPlan() throws IOException, ClassNotFoundException {
-        fileInputStreamTrainingPlan = new FileInputStream("TrainingPlan.out");
+        fileInputStreamTrainingPlan = new FileInputStream("data/TrainingPlan.out");
         objectInputStreamTrainingPlan = new ObjectInputStream(fileInputStreamTrainingPlan);
         return (TrainingPlan) objectInputStreamTrainingPlan.readObject();
     }
