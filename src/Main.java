@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.Scanner;
+import java.io.InvalidClassException;
 
 public class Main {
 
@@ -27,7 +28,7 @@ public class Main {
         int emptyArrayInt[] = {0}; // Пустышка массив количеств подходов
         String emptyArrayString[] = {""}; // Пустышка массив количеств подходов
         Ex empty = new Ex(" ", " ", emptyArrayString, emptyArrayString); //Пустой шаблон упражнений
-        Exs exsEmpty = new Exs(0, emptyArrayInt, empty);//Выполненное пустое упражнение
+        ExecutedExercise exsEmpty = new ExecutedExercise(0, emptyArrayInt, empty);//Выполненное пустое упражнение
 
 //Переменные объектов статистики
         ExerciseSet exExample; //Объект для хранения всех шаблонов тренировки
@@ -35,26 +36,26 @@ public class Main {
         Days days; //Объект для хранения всейй статиистики выполненных упражнений
 
 //Подгрузка данных из файла
-        exExample = (ExerciseSet) DataPreserving.ReadExerciseSet(); // Подгрузка шаблонов упражнений из файла ExerciseSet.out
-        trainingPlan = (TrainingPlan) DataPreserving.ReadTrainingPlan(); // Подгрузка шаблонов тренировок из файла TrainingPlan.out
-        days = (Days) DataPreserving.ReadDays(); // Подгрузка статистики тренировок из файла Days.out
+        try {
+            exExample = (ExerciseSet) DataPreserving.ReadExerciseSet(); // Подгрузка шаблонов упражнений из файла ExerciseSet.out
+            trainingPlan = (TrainingPlan) DataPreserving.ReadTrainingPlan(); // Подгрузка шаблонов тренировок из файла TrainingPlan.out
+            days = (Days) DataPreserving.ReadDays(); // Подгрузка статистики тренировок из файла Days.out
+        }
+        catch(InvalidClassException exc){
+            ExerciseSet exExampleEmpty=new ExerciseSet(empty); //Пустой шаблон тренировок
+            trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
+            DataPreserving.Save(trainingPlan); // Запись пустышки в файл
+
+            exExample=new ExerciseSet(empty); //пустышка
+            DataPreserving.Save(exExample); // Запись пустышки в файл
+
+            Day day = new Day(exsEmpty);//Заносим результат в пустой день
+            days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
+            DataPreserving.Save(days); // Запись пустышки в файл
+        }
 //Конец подгрузки из файлов
 
-//"Ключ зажигания программы". Если все сломалось - 1. выключить подгрузку данных из файлов, 2. Выключить case 5. 3. Убрать из комментария ниже:
-/*
-        ExerciseSet exExampleEmpty=new ExerciseSet(empty); //Пустой шаблон тренировок
-        trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
-        DataPreserving.Save(trainingPlan); // Запись пустышки в файл
 
-        exExample=new ExerciseSet(empty); //пустышка
-        DataPreserving.Save(exExample); // Запись пустышки в файл
-
-        Day day = new Day(exsEmpty);//Заносим результат в пустой день
-        days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
-        DataPreserving.Save(days); // Запись пустышки в файл
-
-//Конец ключа
-*/
         System.out.println("Добро пожаловать в программу тренировки \"Hot Workout\"\n");
         for (; ; ) { //Бесконечный цикл самого главного меню
             System.out.println("Введите цифру в зависимости от цели:\n\n" +
@@ -158,7 +159,7 @@ public class Main {
                         int numberTrainingNow = Integer.parseInt(scanner.nextLine()) - 1; //Ввод выбранной тренировки пользователем
 
                         for (int i = 0; i < trainingPlan.exerciseSet[numberTrainingNow].ex.length; i++) { //Перебираем и попутно выполняем все упражнения выбранной тренировки
-                            Exs exsNow = new Exs(trainingPlan.exerciseSet[numberTrainingNow].ex[i]); //временный объект упражнения, для отправки его потом в объект дня dayNow, заполнена информация о самом упражнении, без веса и подходов
+                            ExecutedExercise exsNow = new ExecutedExercise(trainingPlan.exerciseSet[numberTrainingNow].ex[i]); //временный объект упражнения, для отправки его потом в объект дня dayNow, заполнена информация о самом упражнении, без веса и подходов
 
 
                             System.out.println("Выполните упражнение № " + ((int) (i + 1)) + " \"" + trainingPlan.exerciseSet[numberTrainingNow].getNameEx(i) + "\"");
@@ -215,7 +216,7 @@ public class Main {
                     if (days.chekDays == 1) { //Проверяем есть ли статистика занятий
                         Day[] dayTempForPrintStatistics = new Day[days.getDayLength()]; //Создали вспомогательный массив объектов day
 
-                        Exs[] exsTempForPrintStatistics; //Создали вспомогательный массив объектов exs
+                        ExecutedExercise[] exsTempForPrintStatistics; //Создали вспомогательный массив объектов exs
 
                         for (int j = 0; j < days.getDayLength(); j++) { //Перебираем дни
                             //Получаем массив exs из объекта day:

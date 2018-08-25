@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Days implements Serializable {
     Day[] day;
     int chekDays; //Переменная для проверки, был ли записан первый день в статистику.
+    String fileName = "data/Days.out";
 
     public Days(Day day) { //Конструктор создания первого элемента массива дней
         this.day = new Day[1];
