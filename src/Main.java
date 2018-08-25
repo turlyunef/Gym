@@ -40,6 +40,7 @@ public class Main {
             trainingPlan = (TrainingPlan) DataPreserving.Read(TrainingPlan.fileName);
             days = (Days) DataPreserving.Read(Days.fileName);
         } catch (NullPointerException exc) {
+            System.out.println("История недоступна");
             exExample = new ExerciseSet(empty); //пустышка
             DataPreserving.Save(exExample, ExerciseSet.fileName); // Запись пустышки в файл
 
