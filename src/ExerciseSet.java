@@ -9,7 +9,7 @@ public class ExerciseSet implements Serializable {
     Ex[] ex;
     String nameOfTraining; //имя шаблона тренировки, используется для класса TrainingPlan
     int check; //переменная для проверки были ли созданы шаблонные упражнения
-    String fileName = "data/ExerciseSet.out";
+    static String fileName = "data/ExerciseSet.out";
 
     public ExerciseSet(Ex ex) {
         this.ex = new Ex[1];

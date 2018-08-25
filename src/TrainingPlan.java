@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class TrainingPlan implements Serializable {
     ExerciseSet[] exerciseSet; //Выступает массивом разных планов тренировок
     int numberOfTrainings; //количество тренировок в неделю (количество созданных видов тренировок)
+    static String fileName = "data/TrainingPlan.out";
 
 
     public TrainingPlan(ExerciseSet exerciseSet, String nameOfTraining) { //Для создания первого объекта

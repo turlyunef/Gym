@@ -1,10 +1,9 @@
 import java.io.IOException;
 import java.util.Scanner;
-import java.io.InvalidClassException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in); //для ввода с клавиатуры строк
 
@@ -33,26 +32,52 @@ public class Main {
 //Переменные объектов статистики
         ExerciseSet exExample; //Объект для хранения всех шаблонов тренировки
         TrainingPlan trainingPlan; //Объект для хранения всех шаблонов тренировок
-        Days days; //Объект для хранения всейй статиистики выполненных упражнений
+        Days days; //Объект для хранения всейй статистики выполненных упражнений
 
 //Подгрузка данных из файла
         try {
-            exExample = (ExerciseSet) DataPreserving.ReadExerciseSet(); // Подгрузка шаблонов упражнений из файла ExerciseSet.out
-            trainingPlan = (TrainingPlan) DataPreserving.ReadTrainingPlan(); // Подгрузка шаблонов тренировок из файла TrainingPlan.out
-            days = (Days) DataPreserving.ReadDays(); // Подгрузка статистики тренировок из файла Days.out
-        }
-        catch(InvalidClassException exc){
-            ExerciseSet exExampleEmpty=new ExerciseSet(empty); //Пустой шаблон тренировок
-            trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
-            DataPreserving.Save(trainingPlan); // Запись пустышки в файл
+            exExample = (ExerciseSet) DataPreserving.Read(ExerciseSet.fileName);
+            trainingPlan = (TrainingPlan) DataPreserving.Read(TrainingPlan.fileName);
+            days = (Days) DataPreserving.Read(Days.fileName);
+        } catch (NullPointerException exc) {
+            exExample = new ExerciseSet(empty); //пустышка
+            DataPreserving.Save(exExample, ExerciseSet.fileName); // Запись пустышки в файл
 
-            exExample=new ExerciseSet(empty); //пустышка
-            DataPreserving.Save(exExample); // Запись пустышки в файл
+            ExerciseSet exExampleEmpty = new ExerciseSet(empty); //Пустой шаблон тренировок
+            trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
+            DataPreserving.Save(trainingPlan, TrainingPlan.fileName); // Запись пустышки в файл
 
             Day day = new Day(exsEmpty);//Заносим результат в пустой день
             days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
-            DataPreserving.Save(days); // Запись пустышки в файл
+            DataPreserving.Save(days, Days.fileName); // Запись пустышки в файл
         }
+
+/*try {
+    object = DataPreserving.Read(ExerciseSet.fileName); // Подгрузка шаблонов упражнений из файла ExerciseSet.out
+    if (object.getClass().getName().equals("ExerciseSet")) exExample = (ExerciseSet) object;
+    else {
+        exExample = new ExerciseSet(empty); //пустышка
+        DataPreserving.Save(exExample, ExerciseSet.fileName); // Запись пустышки в файл
+    }
+
+    object = DataPreserving.Read(TrainingPlan.fileName); // // Подгрузка шаблонов тренировок из файла TrainingPlan.out
+    if (object.getClass().getName().equals("TrainingPlan")) trainingPlan = (TrainingPlan) object;
+    else {
+        ExerciseSet exExampleEmpty = new ExerciseSet(empty); //Пустой шаблон тренировок
+        trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
+        DataPreserving.Save(trainingPlan, TrainingPlan.fileName); // Запись пустышки в файл
+    }
+
+    object = DataPreserving.Read(Days.fileName); // Подгрузка статистики тренировок из файла Days.out
+    if (object.getClass().getName().equals("Days")) days = (Days) object;
+    else {
+        Day day = new Day(exsEmpty);//Заносим результат в пустой день
+        days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
+        DataPreserving.Save(days, Days.fileName); // Запись пустышки в файл
+    }
+}catch (NullPointerException exc){
+
+}*/
 //Конец подгрузки из файлов
 
 
@@ -98,7 +123,7 @@ public class Main {
                                     trainingPlan.numberOfTrainings = 1;
                                 } else
                                     trainingPlan = new TrainingPlan(trainingPlan, TrainingPlan.creator_trainingPlan(exExample, nameOfTraining), nameOfTraining);
-                                DataPreserving.Save(trainingPlan);//Сохраняем в файл
+                                DataPreserving.Save(trainingPlan, TrainingPlan.fileName);//Сохраняем в файл
                             }
                         }
                         if (entrance == (char) '3') { //Ветвь удаления шаблона тренировки
@@ -106,7 +131,7 @@ public class Main {
                             entrance = 0; //обнуляем управляющий номер
                             int numberDel = Integer.parseInt(scanner.nextLine()) - 1;
                             trainingPlan = new TrainingPlan(trainingPlan, numberDel); //вызываем конструктор с функцией удаления
-                            DataPreserving.Save(trainingPlan); //Пересохраняем тренировки в файл
+                            DataPreserving.Save(trainingPlan, TrainingPlan.fileName); //Пересохраняем тренировки в файл
                         }
                         if (Helper.quit())
                             break; //вызов метода для возврата в предыдущее меню, пользователь должен нажать Q для завершения
@@ -138,7 +163,7 @@ public class Main {
                                 exExample = new ExerciseSet(exExample, exExample.creator_ex(musclesAll, toolsAll));//пользователь заполняет свободный шаблон упражнений
                                 System.out.println("Создано новое упражнение под названием " + exExample.getNameEx((exExample.ex.length - 1)));
                             }
-                            DataPreserving.Save(exExample);
+                            DataPreserving.Save(exExample, ExerciseSet.fileName);
                         }
 
                         if (Helper.quit())
@@ -165,7 +190,7 @@ public class Main {
                             System.out.println("Выполните упражнение № " + ((int) (i + 1)) + " \"" + trainingPlan.exerciseSet[numberTrainingNow].getNameEx(i) + "\"");
                             Helper.printArrayOfString(trainingPlan.exerciseSet[numberTrainingNow].ex[i].getMusclesEx(), "Мышцы");
                             Helper.printArrayOfString(trainingPlan.exerciseSet[numberTrainingNow].ex[i].getToolsEx(), "Тренажеры");
-                            System.out.println("   "+trainingPlan.exerciseSet[numberTrainingNow].getDescriptionEx(i));
+                            System.out.println("   " + trainingPlan.exerciseSet[numberTrainingNow].getDescriptionEx(i));
 
 
                             if (trainingPlan.exerciseSet[numberTrainingNow].ex[i].getChekExs() == 1) { //Если упражнение раньше уже выполнялось, выведем прошлый результат (вес и подходы)
@@ -189,7 +214,7 @@ public class Main {
 
                             //После выполнения упражнения, помечаем его выполненным, чтобы в следующий раз вывести инфу о прошлых весах и подходах:
                             trainingPlan.exerciseSet[numberTrainingNow].ex[i].setCheсkExs(1);
-                            DataPreserving.Save(trainingPlan);//Пересохраняем в файл планы тренировок, чтобы сохранилась отметка о выполнении этих упражнений
+                            DataPreserving.Save(trainingPlan, TrainingPlan.fileName);//Пересохраняем в файл планы тренировок, чтобы сохранилась отметка о выполнении этих упражнений
 
                             //Записываем статистику (выполненное упражнение exsNow) во временный объект класса Day, который содержит массив выполненных упражнений
                             if (dayNow.chekDay == 0) {//Если упражнение первое в тренировке, используем перегруженный конструктор без перезаписи массива упражнений
@@ -205,7 +230,7 @@ public class Main {
                         } else
                             days = new Days(days, dayNow); //Если упражнение не первое в тренировке, используем перегруженный конструктор с перезаписью массива упражнений
 
-                        DataPreserving.Save(days); //Перезаписываем в файл статистику
+                        DataPreserving.Save(days, Days.fileName); //Перезаписываем в файл статистику
 
 
                     }
@@ -260,7 +285,7 @@ public class Main {
                             case (char) '1': { //очистить файл всех шаблонов тренировок
                                 ExerciseSet exExampleEmpty = new ExerciseSet(empty); //Пустой шаблон тренировок
                                 trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
-                                DataPreserving.Save(trainingPlan); // Запись пустышки в файл
+                                DataPreserving.Save(trainingPlan, TrainingPlan.fileName); // Запись пустышки в файл
                             }
                             if (entrance == (char) '1') break;
 
@@ -268,7 +293,7 @@ public class Main {
                             case (char) '2': { //очистить файл всех шаблонов упражнений
                                 exExample = new ExerciseSet(empty); //пустышка
                                 //MassiveTestName = new String[1]; //Пересоздаем массив названий упражнений, используемый для проверки от ввода такого же упражнения
-                                DataPreserving.Save(exExample); // Запись пустышки в файл
+                                DataPreserving.Save(exExample, ExerciseSet.fileName); // Запись пустышки в файл
                             }
                             if (entrance == (char) '2') break;
 
@@ -276,7 +301,7 @@ public class Main {
                             case (char) '3': { //очистить файл статистики занятий
                                 Day day = new Day(exsEmpty);//Заносим результат в пустой день
                                 days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
-                                DataPreserving.Save(days); // Запись пустышки в файл
+                                DataPreserving.Save(days, Days.fileName); // Запись пустышки в файл
                             }
                             break;
                             default: {
