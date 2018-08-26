@@ -36,6 +36,8 @@ public class Day extends DayDate implements Serializable {
         this.exs[day.exs.length] = exs;
     }
 
+
+
     public int getExsLength() { //Возвращает количество элементов массива с объектами класса Exs объекта класса Day
         return this.exs.length;
     }

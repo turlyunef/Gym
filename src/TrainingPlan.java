@@ -61,9 +61,63 @@ public class TrainingPlan implements Serializable {
 
         this.numberOfTrainings -= 1;
     }
+    //блок редактирования плана тренировки
+
+    public static void menu_TrainingPlanRedaction() throws IOException {
+        TrainingPlan trainingPlan;
+        try {
+            trainingPlan = (TrainingPlan) getDataFromFile(); //подгрузить из файла
+        } catch (NullPointerException exc) {
+            System.out.println("Error in the class TrainigPlan in method menu_TrainingPlan, exception NullPointerException catch "+exc.toString());
+            trainingPlan = new TrainingPlan();
+        }
+        Scanner scanner = new Scanner(System.in); //для ввода с клавиатуры строк
+
+        for (; ; ) {
+
+
+            if (trainingPlan.numberOfTrainings == 0) {
+                System.out.println("Тренировок еще не создавалось. Создать новую? 1 - Да, 2 - Нет");
+            } else {
+                System.out.println("Созданные тренировки:");
+                trainingPlan.trainingPlanPrint(); //Вывести список названий всех доступных тренировок
+                System.out.println(" Создать новую? 1 - Да, 2 - Нет, 3 - Удалить тренировку");
+            }
+
+            char entrance = (char) System.in.read(); //вводим с клавиатуры управляющий номер
+            Helper.clear(); //очищаем буфер
+            if (entrance == (char) '1') { //Ветвь создания нового шаблона тренировки
+                ExerciseSet exerciseSet = (ExerciseSet) ExerciseSet.getDataFromFile();
+                if (ExerciseSet.getDataFromFile().check == 0) {
+                    ExerciseSet.menu_exercise_Redaction();
+                    break;
+                } else { //Заполняем план  первой тренировки через првый конструктор класса TrainingPlan
+                    System.out.println("Введите название новой тренировки:");
+                    String nameOfTraining = scanner.nextLine();
+                    //создаем объект trainingPlan для хранения всех планов тренировок. Через первый перегруженный конструктор
+                    // Заполняем первый элемент массива exerciseSet через метод creator_trainingPlan
+                    if (trainingPlan.numberOfTrainings == 0) {
+                        trainingPlan = new TrainingPlan(createExerciseSet(exerciseSet, nameOfTraining), nameOfTraining);
+                        trainingPlan.numberOfTrainings = 1;
+                    } else
+                        trainingPlan = new TrainingPlan(new TrainingPlan(), createExerciseSet(exerciseSet, nameOfTraining), nameOfTraining);
+                    DataPreserving.Save(trainingPlan, fileName);//Сохраняем в файл
+                }
+            }
+            if (entrance == (char) '3') { //Ветвь удаления шаблона тренировки
+                System.out.println("Введите номер тренировки, которую хотите удалить:");
+                entrance = 0; //обнуляем управляющий номер
+                int numberDel = Integer.parseInt(scanner.nextLine()) - 1;
+                trainingPlan = new TrainingPlan(trainingPlan, numberDel); //вызвать конструктор с функцией удаления
+                DataPreserving.Save(trainingPlan, fileName); //пересохранить шаблоны тренировок в файл
+            }
+            if (Helper.quit())
+                break; //вызов метода для возврата в предыдущее меню, пользователь должен нажать Q для завершения
+        }
+    }
 
     //Метод для создания шаблона тренировки пользователем
-    static ExerciseSet creator_trainingPlan(ExerciseSet exExample, String name1) throws IOException {
+    static ExerciseSet createExerciseSet(ExerciseSet exExample, String name1) throws IOException {
         Scanner scanner = new Scanner(System.in); //для ввода с клавиатуры строк
         String name2;
 
@@ -86,6 +140,7 @@ public class TrainingPlan implements Serializable {
         }
         return exerciseSetTemp;
     }
+
 
     //Метод для вывода на экран созданных тренировок (их имен)
     public void trainingPlanPrint() {
