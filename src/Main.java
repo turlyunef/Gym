@@ -66,6 +66,7 @@ public class Main {
                         entrance = (char) System.in.read(); //вводим с клавиатуры управляющий номер
                         Helper.clear(); //очищаем буфер
                         if (entrance == (char) '1') { //Ветвь создания нового шаблона тренировки
+                            ExerciseSet exerciseSet = (ExerciseSet) ExerciseSet.getDataFromFile();
                             if (ExerciseSet.getDataFromFile().check == 0) {
                                 System.out.println("Упражнений еще не создавалось. Заполните в главном меню раздел 2");
                                 break;
@@ -75,10 +76,10 @@ public class Main {
                                 //создаем объект trainingPlan для хранения всех планов тренировок. Через первый перегруженный конструктор
                                 // Заполняем первый элемент массива exerciseSet через метод creator_trainingPlan
                                 if (trainingPlan.numberOfTrainings == 0) {
-                                    trainingPlan = new TrainingPlan(TrainingPlan.creator_trainingPlan(new ExerciseSet(), nameOfTraining), nameOfTraining);
+                                    trainingPlan = new TrainingPlan(TrainingPlan.creator_trainingPlan(exerciseSet, nameOfTraining), nameOfTraining);
                                     trainingPlan.numberOfTrainings = 1;
                                 } else
-                                    trainingPlan = new TrainingPlan(new TrainingPlan(), TrainingPlan.creator_trainingPlan(new ExerciseSet(), nameOfTraining), nameOfTraining);
+                                    trainingPlan = new TrainingPlan(new TrainingPlan(), TrainingPlan.creator_trainingPlan(exerciseSet, nameOfTraining), nameOfTraining);
                                 DataPreserving.Save(trainingPlan, TrainingPlan.fileName);//Сохраняем в файл
                             }
                         }
@@ -131,7 +132,7 @@ public class Main {
                 break;
 //Начать тренировку
                 case (char) '3': {
-                    trainingPlan = TrainingPlan.getDataFromFile(); //подгрузить из файла
+                    trainingPlan = (TrainingPlan) TrainingPlan.getDataFromFile(); //подгрузить из файла
                     Day dayNow = new Day(new ExecutedExercise()); //временный объект дня, в который будет записываться статистика выполнения тренировки
                     days = (Days) Days.getDataFromFile();
                     if (trainingPlan.numberOfTrainings == 0) {
@@ -197,9 +198,9 @@ public class Main {
                 break;
 //Посмотреть статистику
                 case (char) '4': {
-                    days = Days.getDataFromFile(); //подгрузить из файла
+                    days = (Days) Days.getDataFromFile(); //подгрузить из файла
                     if (days.chekDays == 1) { //Проверяем есть ли статистика занятий
-                        Day[] dayTempForPrintStatistics = new Day[days.getDayLength()]; //Создали вспомогательный массив объектов day
+                        //Day[] dayTempForPrintStatistics = new Day[days.getDayLength()]; //Создали вспомогательный массив объектов day
 
                         ExecutedExercise[] exsTempForPrintStatistics; //Создали вспомогательный массив объектов exs
 

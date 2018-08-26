@@ -19,7 +19,7 @@ public class Days implements Serializable {
     public Days(Day day) { //Конструктор создания первого элемента массива дней
         this.day = new Day[1];
         this.day[0] = day; //Присваиваем единственному элементу массива дней объект выполненного дня, введенного через параметры конструктора
-        this.chekDays = 0;
+        this.chekDays = 1;
 
     }
 
@@ -71,6 +71,7 @@ public class Days implements Serializable {
             Days value = (Days) DataPreserving.Read(fileName);
             return value;
         } catch (ClassNotFoundException | IOException exc) {
+            System.out.println("Error in the class Days, getDataFromFile() catch exception, data is Resetting");
             DataPreserving.DataReset();
         }
         return new Days();

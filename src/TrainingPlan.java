@@ -99,9 +99,11 @@ public class TrainingPlan implements Serializable {
     //Прочитать объект из файла, либо создать пустышку
     public static TrainingPlan getDataFromFile() {
         try {
+            System.out.println();
             TrainingPlan value = (TrainingPlan) DataPreserving.Read(fileName);
             return value;
         } catch (ClassNotFoundException | IOException exc) {
+            System.out.println("Error in the class TrainingPlan, getDataFromFile() catch exception, data is Resetting");
             DataPreserving.DataReset();
         }
         return new TrainingPlan();

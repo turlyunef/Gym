@@ -36,5 +36,6 @@ public class DataPreserving {
         Save(new ExerciseSet(), ExerciseSet.fileName); // Запись пустого инстанса ExerciseSet в файл
         Save(new TrainingPlan(), TrainingPlan.fileName); // Запись пустого инстанса TrainingPlan в файл
         Save(new Days(), Days.fileName); // Запись пустого инстанса Days в файл
+
     }
 }

@@ -12,7 +12,9 @@ public class ExerciseSet implements Serializable {
     static String fileName = "data/ExerciseSet.out";
 
     public ExerciseSet() {
+        this.ex = new Ex[1];
         this.ex[0] = new Ex();
+        this.check = 0;
     }
 
     public ExerciseSet(Ex ex) {
@@ -81,6 +83,7 @@ public class ExerciseSet implements Serializable {
             ExerciseSet value = (ExerciseSet) DataPreserving.Read(fileName);
             return value;
         } catch (ClassNotFoundException | IOException exc) {
+            System.out.println("Error in the class ExerciseSet, getDataFromFile() catch exception, data is Resetting");
             DataPreserving.DataReset();
         }
         return new ExerciseSet();
