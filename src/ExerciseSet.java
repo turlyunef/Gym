@@ -11,6 +11,10 @@ public class ExerciseSet implements Serializable {
     int check; //переменная для проверки были ли созданы шаблонные упражнения
     static String fileName = "data/ExerciseSet.out";
 
+    public ExerciseSet() {
+        this.ex[0] = new Ex();
+    }
+
     public ExerciseSet(Ex ex) {
         this.ex = new Ex[1];
         this.ex[0] = ex;
@@ -69,6 +73,17 @@ public class ExerciseSet implements Serializable {
 
         Ex exTemp = new Ex(name, description, muscles, tools); //временный объект класса упражнений для возврата из метода.
         return exTemp;
+    }
+
+    //Прочитать объект из файла, либо создать пустышку
+    public static ExerciseSet getDataFromFile() {
+        try {
+            ExerciseSet value = (ExerciseSet) DataPreserving.Read(fileName);
+            return value;
+        } catch (ClassNotFoundException | IOException exc) {
+            DataPreserving.DataReset();
+        }
+        return new ExerciseSet();
     }
 
     public String getNameEx(int index) {

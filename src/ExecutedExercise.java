@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -9,8 +10,12 @@ import java.io.Serializable;
 public class ExecutedExercise extends Ex implements Serializable {
     int weight;
     int[] amount;
-    
 
+    public ExecutedExercise() {
+        int emptyArrayInt[] = {0}; // Пустышка массив количеств подходов
+        this.weight = 0;
+        this.amount = emptyArrayInt;
+    }
 
     public ExecutedExercise(Ex ex) {
         super(ex.getNameEx(), ex.getDescriptionEx(), ex.getMusclesEx(), ex.getToolsEx());

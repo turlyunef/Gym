@@ -17,26 +17,24 @@ public class DataPreserving {
             objectOutputStream.writeObject(data);
             objectOutputStream.flush();
         } catch (IOException exc) {
-            System.out.println(exc.toString());
+            System.out.println("Ошибка Save " + exc.toString());
         }
     }
+
     //Читает данные из файлов
+    public static Object Read(String fileName) throws ClassNotFoundException, IOException {
 
-    public static Object Read(String fileName) {
-        try {
-            try (FileInputStream fileInputStream = new FileInputStream(fileName); ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+        FileInputStream fileInputStream = new FileInputStream(fileName);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-                return objectInputStream.readObject();
-            } catch (IOException exc) {
-                System.out.println(exc.toString());
-            }
-        } catch (ClassNotFoundException exc) {
-            System.out.println(exc.toString());
-        }
-        return null;
+        return objectInputStream.readObject();
     }
 
-
-
-
+    //Перезаписывает все файлы хранения данных пустыми данными(первый запуск программы)
+    public static void DataReset() {
+        System.out.println("История и шаблоны недоступны");
+        Save(new ExerciseSet(), ExerciseSet.fileName); // Запись пустого инстанса ExerciseSet в файл
+        Save(new TrainingPlan(), TrainingPlan.fileName); // Запись пустого инстанса TrainingPlan в файл
+        Save(new Days(), Days.fileName); // Запись пустого инстанса Days в файл
+    }
 }

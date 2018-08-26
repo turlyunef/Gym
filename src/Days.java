@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -7,7 +8,13 @@ import java.io.Serializable;
 public class Days implements Serializable {
     Day[] day;
     int chekDays; //Переменная для проверки, был ли записан первый день в статистику.
-    static String fileName = "data/Days.out";
+    public static String fileName = "data/Days.out";
+
+    public Days() {
+        this.day = new Day[1];
+        this.day[0] = new Day(); //Присваиваем единственному элементу массива дней объект выполненного дня, введенного через параметры конструктора
+        this.chekDays = 0;
+    }
 
     public Days(Day day) { //Конструктор создания первого элемента массива дней
         this.day = new Day[1];
@@ -56,6 +63,17 @@ public class Days implements Serializable {
         if ((check == 2) | (check == 3) | (check == 4))
             System.out.println(" раза.");
         else System.out.println(" раз.");
+    }
+
+    //Прочитать объект из файла, либо создать пустышку
+    public static Days getDataFromFile() {
+        try {
+            Days value = (Days) DataPreserving.Read(fileName);
+            return value;
+        } catch (ClassNotFoundException | IOException exc) {
+            DataPreserving.DataReset();
+        }
+        return new Days();
     }
 
 }

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.util.Scanner;
 
 public class Main {
@@ -23,67 +24,14 @@ public class Main {
         char entrance; //переменная управления самым главным меню
         String nameOfTraining; //переменная для записи названий тренировок
 
-//Пустышки вспомогательные
-        int emptyArrayInt[] = {0}; // Пустышка массив количеств подходов
-        String emptyArrayString[] = {""}; // Пустышка массив количеств подходов
-        Ex empty = new Ex(" ", " ", emptyArrayString, emptyArrayString); //Пустой шаблон упражнений
-        ExecutedExercise exsEmpty = new ExecutedExercise(0, emptyArrayInt, empty);//Выполненное пустое упражнение
-
 //Переменные объектов статистики
         ExerciseSet exExample; //Объект для хранения всех шаблонов тренировки
         TrainingPlan trainingPlan; //Объект для хранения всех шаблонов тренировок
-        Days days; //Объект для хранения всейй статистики выполненных упражнений
+        Days days; //Объект для хранения всей статистики выполненных упражнений
 
-//Подгрузка данных из файла
-        try {
-            exExample = (ExerciseSet) DataPreserving.Read(ExerciseSet.fileName);
-            trainingPlan = (TrainingPlan) DataPreserving.Read(TrainingPlan.fileName);
-            days = (Days) DataPreserving.Read(Days.fileName);
-        } catch (NullPointerException exc) {
-            System.out.println("История недоступна");
-            exExample = new ExerciseSet(empty); //пустышка
-            DataPreserving.Save(exExample, ExerciseSet.fileName); // Запись пустышки в файл
-
-            ExerciseSet exExampleEmpty = new ExerciseSet(empty); //Пустой шаблон тренировок
-            trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
-            DataPreserving.Save(trainingPlan, TrainingPlan.fileName); // Запись пустышки в файл
-
-            Day day = new Day(exsEmpty);//Заносим результат в пустой день
-            days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
-            DataPreserving.Save(days, Days.fileName); // Запись пустышки в файл
-        }
-
-/*try {
-    object = DataPreserving.Read(ExerciseSet.fileName); // Подгрузка шаблонов упражнений из файла ExerciseSet.out
-    if (object.getClass().getName().equals("ExerciseSet")) exExample = (ExerciseSet) object;
-    else {
-        exExample = new ExerciseSet(empty); //пустышка
-        DataPreserving.Save(exExample, ExerciseSet.fileName); // Запись пустышки в файл
-    }
-
-    object = DataPreserving.Read(TrainingPlan.fileName); // // Подгрузка шаблонов тренировок из файла TrainingPlan.out
-    if (object.getClass().getName().equals("TrainingPlan")) trainingPlan = (TrainingPlan) object;
-    else {
-        ExerciseSet exExampleEmpty = new ExerciseSet(empty); //Пустой шаблон тренировок
-        trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
-        DataPreserving.Save(trainingPlan, TrainingPlan.fileName); // Запись пустышки в файл
-    }
-
-    object = DataPreserving.Read(Days.fileName); // Подгрузка статистики тренировок из файла Days.out
-    if (object.getClass().getName().equals("Days")) days = (Days) object;
-    else {
-        Day day = new Day(exsEmpty);//Заносим результат в пустой день
-        days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
-        DataPreserving.Save(days, Days.fileName); // Запись пустышки в файл
-    }
-}catch (NullPointerException exc){
-
-}*/
-//Конец подгрузки из файлов
-
-
+//Меню навигации по программе
         System.out.println("Добро пожаловать в программу тренировки \"Hot Workout\"\n");
-        for (; ; ) { //Бесконечный цикл самого главного меню
+        for (; ; ) {
             System.out.println("Введите цифру в зависимости от цели:\n\n" +
                     "1 - Редактирование тренировок\n" + //Добавить в это меню план на сегодня и план на интересующий день
                     "2 - Редактирование упражнений\n" + //В этом меню вставить создание и редактирование упражнения после вывода текущих
@@ -98,20 +46,27 @@ public class Main {
             switch (entrance) {
 //блок плана тренировки
                 case (char) '1': {
-                    for (; ; ) { //Бесконечный цикл раздела плана тренировки
+                    for (; ; ) {
+
+                        try {
+                            trainingPlan = (TrainingPlan) TrainingPlan.getDataFromFile(); //подгрузить из файла
+                        } catch (NullPointerException exc) {
+                            System.out.println("Сломалось");
+                            trainingPlan = new TrainingPlan();
+                        }
 
                         if (trainingPlan.numberOfTrainings == 0) {
                             System.out.println("Тренировок еще не создавалось. Создать новую? 1 - Да, 2 - Нет");
                         } else {
                             System.out.println("Созданные тренировки:");
-                            trainingPlan.trainingPlanPrint(); //Выводим список названий всех доступных тренировок
+                            trainingPlan.trainingPlanPrint(); //Вывести список названий всех доступных тренировок
                             System.out.println(" Создать новую? 1 - Да, 2 - Нет, 3 - Удалить тренировку");
                         }
 
                         entrance = (char) System.in.read(); //вводим с клавиатуры управляющий номер
                         Helper.clear(); //очищаем буфер
                         if (entrance == (char) '1') { //Ветвь создания нового шаблона тренировки
-                            if (exExample.check == 0) {
+                            if (ExerciseSet.getDataFromFile().check == 0) {
                                 System.out.println("Упражнений еще не создавалось. Заполните в главном меню раздел 2");
                                 break;
                             } else { //Заполняем план  первой тренировки через првый конструктор класса TrainingPlan
@@ -120,10 +75,10 @@ public class Main {
                                 //создаем объект trainingPlan для хранения всех планов тренировок. Через первый перегруженный конструктор
                                 // Заполняем первый элемент массива exerciseSet через метод creator_trainingPlan
                                 if (trainingPlan.numberOfTrainings == 0) {
-                                    trainingPlan = new TrainingPlan(TrainingPlan.creator_trainingPlan(exExample, nameOfTraining), nameOfTraining);
+                                    trainingPlan = new TrainingPlan(TrainingPlan.creator_trainingPlan(new ExerciseSet(), nameOfTraining), nameOfTraining);
                                     trainingPlan.numberOfTrainings = 1;
                                 } else
-                                    trainingPlan = new TrainingPlan(trainingPlan, TrainingPlan.creator_trainingPlan(exExample, nameOfTraining), nameOfTraining);
+                                    trainingPlan = new TrainingPlan(new TrainingPlan(), TrainingPlan.creator_trainingPlan(new ExerciseSet(), nameOfTraining), nameOfTraining);
                                 DataPreserving.Save(trainingPlan, TrainingPlan.fileName);//Сохраняем в файл
                             }
                         }
@@ -131,8 +86,8 @@ public class Main {
                             System.out.println("Введите номер тренировки, которую хотите удалить:");
                             entrance = 0; //обнуляем управляющий номер
                             int numberDel = Integer.parseInt(scanner.nextLine()) - 1;
-                            trainingPlan = new TrainingPlan(trainingPlan, numberDel); //вызываем конструктор с функцией удаления
-                            DataPreserving.Save(trainingPlan, TrainingPlan.fileName); //Пересохраняем тренировки в файл
+                            trainingPlan = new TrainingPlan(trainingPlan, numberDel); //вызвать конструктор с функцией удаления
+                            DataPreserving.Save(trainingPlan, TrainingPlan.fileName); //пересохранить шаблоны тренировок в файл
                         }
                         if (Helper.quit())
                             break; //вызов метода для возврата в предыдущее меню, пользователь должен нажать Q для завершения
@@ -143,8 +98,9 @@ public class Main {
 //блок списка доступных упражнений
                 case (char) '2': {
 
-                    for (; ; ) { //Бесконечный цикл раздела списка доступных упражнений
+                    for (; ; ) {
 
+                        exExample = (ExerciseSet) ExerciseSet.getDataFromFile();
                         if (exExample.check == 0) System.out.println("Упражнений еще не создавалось");
                         else
                             Helper.exerciseSetPrint("Доступные упражнения", exExample.ex); //Метод вывода на экран доступных шаблнных упражнений
@@ -175,7 +131,9 @@ public class Main {
                 break;
 //Начать тренировку
                 case (char) '3': {
-                    Day dayNow = new Day(exsEmpty); //временный объект дня, в который будет записываться статистика выполнения тренировки
+                    trainingPlan = TrainingPlan.getDataFromFile(); //подгрузить из файла
+                    Day dayNow = new Day(new ExecutedExercise()); //временный объект дня, в который будет записываться статистика выполнения тренировки
+                    days = (Days) Days.getDataFromFile();
                     if (trainingPlan.numberOfTrainings == 0) {
                         System.out.println("Тренировок еще не создавалось. Заполните в главном меню раздел 1 ");
 
@@ -239,6 +197,7 @@ public class Main {
                 break;
 //Посмотреть статистику
                 case (char) '4': {
+                    days = Days.getDataFromFile(); //подгрузить из файла
                     if (days.chekDays == 1) { //Проверяем есть ли статистика занятий
                         Day[] dayTempForPrintStatistics = new Day[days.getDayLength()]; //Создали вспомогательный массив объектов day
 
@@ -266,7 +225,6 @@ public class Main {
 
                     } else System.out.println("Статистика пустая");
                 }
-
                 break;
 
 
@@ -284,7 +242,7 @@ public class Main {
 
                             case (char) '4': //удалить все файлы (выполнит case 1,2,3 ниже)
                             case (char) '1': { //очистить файл всех шаблонов тренировок
-                                ExerciseSet exExampleEmpty = new ExerciseSet(empty); //Пустой шаблон тренировок
+                                ExerciseSet exExampleEmpty = new ExerciseSet(new Ex()); //Пустой шаблон тренировок
                                 trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
                                 DataPreserving.Save(trainingPlan, TrainingPlan.fileName); // Запись пустышки в файл
                             }
@@ -292,7 +250,7 @@ public class Main {
 
 
                             case (char) '2': { //очистить файл всех шаблонов упражнений
-                                exExample = new ExerciseSet(empty); //пустышка
+                                exExample = new ExerciseSet(new Ex()); //пустышка
                                 //MassiveTestName = new String[1]; //Пересоздаем массив названий упражнений, используемый для проверки от ввода такого же упражнения
                                 DataPreserving.Save(exExample, ExerciseSet.fileName); // Запись пустышки в файл
                             }
@@ -300,7 +258,7 @@ public class Main {
 
 
                             case (char) '3': { //очистить файл статистики занятий
-                                Day day = new Day(exsEmpty);//Заносим результат в пустой день
+                                Day day = new Day(new ExecutedExercise());//Заносим результат в пустой день
                                 days = new Days(day); //Создаем первый массив дней, состоящий из одного дня. Заносим результат создания конкретного дня в массив дней
                                 DataPreserving.Save(days, Days.fileName); // Запись пустышки в файл
                             }

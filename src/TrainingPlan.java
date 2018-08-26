@@ -12,6 +12,12 @@ public class TrainingPlan implements Serializable {
     int numberOfTrainings; //количество тренировок в неделю (количество созданных видов тренировок)
     static String fileName = "data/TrainingPlan.out";
 
+    public TrainingPlan() { //Для создания пустого объекта(для сериализации)
+        this.exerciseSet = new ExerciseSet[1];
+        this.exerciseSet[0] = new ExerciseSet();
+        this.exerciseSet[0].nameOfTraining = " ";
+        this.numberOfTrainings = 0;
+    }
 
     public TrainingPlan(ExerciseSet exerciseSet, String nameOfTraining) { //Для создания первого объекта
         this.exerciseSet = new ExerciseSet[1];
@@ -20,6 +26,7 @@ public class TrainingPlan implements Serializable {
         this.numberOfTrainings = 0;
 
     }
+
 
     public TrainingPlan(TrainingPlan trainingPlan, ExerciseSet exerciseSet, String nameOfTraining) {//Для дополнения существующего объекта новым элементом массива (создание нового плана тренировки)
 
@@ -88,4 +95,16 @@ public class TrainingPlan implements Serializable {
         }
         System.out.println();
     }
+
+    //Прочитать объект из файла, либо создать пустышку
+    public static TrainingPlan getDataFromFile() {
+        try {
+            TrainingPlan value = (TrainingPlan) DataPreserving.Read(fileName);
+            return value;
+        } catch (ClassNotFoundException | IOException exc) {
+            DataPreserving.DataReset();
+        }
+        return new TrainingPlan();
+    }
+
 }

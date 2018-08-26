@@ -26,7 +26,15 @@ public class Ex implements Serializable {
         this.checkExs = 0;
     }
 
+    public Ex() {
+        String emptyArrayString[] = {""};
 
+        this.nameEx = " ";
+        this.descriptionEx = " ";
+        this.musclesEx = emptyArrayString;
+        this.toolsEx = emptyArrayString;
+        this.checkExs = 0;
+    }
 
 
     public void setCheсkExs(int cheсkExs) {
