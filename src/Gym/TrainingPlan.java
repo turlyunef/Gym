@@ -1,28 +1,32 @@
+package Gym;
+
+import Menu.Exercise;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
 
 /**
  * Класс "План тренировки". Состоит из:
- * - массива объектов класса "ExerciseSet" для сохранения в объект класса ExerciseSet одной тренировки, состоящей из массива Ex[] запланированных упражнений
+ * - массива объектов класса "Gym.ExerciseSet" для сохранения в объект класса Gym.ExerciseSet одной тренировки, состоящей из массива Gym.Ex[] запланированных упражнений
  * -статичной переменной количества тренировок в неделю
  */
 public class TrainingPlan implements Serializable {
     ExerciseSet[] exerciseSet; //Выступает массивом разных планов тренировок
     int numberOfTrainings; //количество тренировок в неделю (количество созданных видов тренировок)
-    static String fileName = "data/TrainingPlan.out";
+    static String fileName = "data/Gym.TrainingPlan.out";
 
     public TrainingPlan() { //Для создания пустого объекта(для сериализации)
         this.exerciseSet = new ExerciseSet[1];
         this.exerciseSet[0] = new ExerciseSet();
-        this.exerciseSet[0].nameOfTraining = " ";
+        this.exerciseSet[0].setNameOfTraining(" ");
         this.numberOfTrainings = 0;
     }
 
     public TrainingPlan(ExerciseSet exerciseSet, String nameOfTraining) { //Для создания первого объекта
         this.exerciseSet = new ExerciseSet[1];
         this.exerciseSet[0] = exerciseSet;
-        this.exerciseSet[0].nameOfTraining = nameOfTraining;
+        this.exerciseSet[0].setNameOfTraining(nameOfTraining);
         this.numberOfTrainings = 0;
 
     }
@@ -35,11 +39,11 @@ public class TrainingPlan implements Serializable {
         // чем у внесенного через параметры
         for (int j = 0; j < trainingPlan.exerciseSet.length; j++) {
             this.exerciseSet[j] = trainingPlan.exerciseSet[j]; //Перезаписываем все элементы из введенного через параметры массива шаблонов тренировок в только что созданный
-            this.exerciseSet[j].nameOfTraining = trainingPlan.exerciseSet[j].nameOfTraining;
+            this.exerciseSet[j].setNameOfTraining(trainingPlan.exerciseSet[j].getNameOfTraining());
         }
         this.exerciseSet[trainingPlan.exerciseSet.length] = exerciseSet; //Вносим данные нового шаблона тренировок, введенного через
         // параметры в последний только что созданный элемент массива шаблонов тренировок
-        this.exerciseSet[trainingPlan.exerciseSet.length].nameOfTraining = nameOfTraining;
+        this.exerciseSet[trainingPlan.exerciseSet.length].setNameOfTraining(nameOfTraining);
         this.numberOfTrainings += 1;
     }
 
@@ -52,10 +56,10 @@ public class TrainingPlan implements Serializable {
             if (j == numberDel) continue;
             if (j < numberDel) {
                 this.exerciseSet[j] = trainingPlan.exerciseSet[j]; //Перезаписываем все элементы из введенного через параметры массива шаблонов тренировок в только что созданный
-                this.exerciseSet[j].nameOfTraining = trainingPlan.exerciseSet[j].nameOfTraining; //аналогично с именами тренировок
+                this.exerciseSet[j].setNameOfTraining(trainingPlan.exerciseSet[j].getNameOfTraining()); //аналогично с именами тренировок
             } else {
                 this.exerciseSet[j - 1] = trainingPlan.exerciseSet[j]; //Перезаписываем все элементы из введенного через параметры массива шаблонов тренировок в только что созданный со смещением индекса
-                this.exerciseSet[j - 1].nameOfTraining = trainingPlan.exerciseSet[j].nameOfTraining; //аналогично с именами тренировок
+                this.exerciseSet[j - 1].setNameOfTraining(trainingPlan.exerciseSet[j].getNameOfTraining()); //аналогично с именами тренировок
             }
         }
 
@@ -88,10 +92,10 @@ public class TrainingPlan implements Serializable {
             Helper.clear(); //очищаем буфер
             if (entrance == (char) '1') { //Ветвь создания нового шаблона тренировки
                 ExerciseSet exerciseSet = (ExerciseSet) ExerciseSet.getDataFromFile();
-                if (ExerciseSet.getDataFromFile().check == 0) {
-                    ExerciseSet.menu_exercise_Redaction();
+                if (ExerciseSet.getDataFromFile().getCheck() == 0) {
+                    Exercise.menu_exercise_Redaction();
                     break;
-                } else { //Заполняем план  первой тренировки через првый конструктор класса TrainingPlan
+                } else { //Заполняем план  первой тренировки через првый конструктор класса Gym.TrainingPlan
                     System.out.println("Введите название новой тренировки:");
                     String nameOfTraining = scanner.nextLine();
                     //создаем объект trainingPlan для хранения всех планов тренировок. Через первый перегруженный конструктор
@@ -146,7 +150,7 @@ public class TrainingPlan implements Serializable {
     public void trainingPlanPrint() {
         System.out.println("Текущие созданные тренировки:");
         for (int i = 1; i <= exerciseSet.length; i++) {
-            System.out.println((i) + ". " + exerciseSet[i - 1].nameOfTraining); //выводим все имена записанных в память шаблонных упражнений
+            System.out.println((i) + ". " + exerciseSet[i - 1].getNameOfTraining()); //выводим все имена записанных в память шаблонных упражнений
         }
         System.out.println();
     }
@@ -158,10 +162,33 @@ public class TrainingPlan implements Serializable {
             TrainingPlan value = (TrainingPlan) DataPreserving.Read(fileName);
             return value;
         } catch (ClassNotFoundException | IOException exc) {
-            System.out.println("Error in the class TrainingPlan, getDataFromFile() catch exception, data is Resetting");
+            System.out.println("Error in the class Gym.TrainingPlan, getDataFromFile() catch exception, data is Resetting");
             DataPreserving.DataReset();
         }
         return new TrainingPlan();
     }
 
+    public ExerciseSet[] getExerciseSet() {
+        return exerciseSet;
+    }
+
+    public void setExerciseSet(ExerciseSet[] exerciseSet) {
+        this.exerciseSet = exerciseSet;
+    }
+
+    public int getNumberOfTrainings() {
+        return numberOfTrainings;
+    }
+
+    public void setNumberOfTrainings(int numberOfTrainings) {
+        this.numberOfTrainings = numberOfTrainings;
+    }
+
+    public static String getFileName() {
+        return fileName;
+    }
+
+    public static void setFileName(String fileName) {
+        TrainingPlan.fileName = fileName;
+    }
 }

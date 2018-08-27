@@ -1,9 +1,10 @@
-import java.io.IOException;
+package Gym;
+
 import java.io.Serializable;
 
 /**
  * Класс "Упражнение конкретного дня". Состоит из
- * -переменные класса Ex
+ * -переменные класса Gym.Ex
  * -вес
  * -массив подходов
  */

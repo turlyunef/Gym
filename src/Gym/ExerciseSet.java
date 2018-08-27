@@ -1,3 +1,5 @@
+package Gym;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
@@ -6,10 +8,10 @@ import java.util.Scanner;
  * Класс шаблона упражнений одной из тренировки
  */
 public class ExerciseSet implements Serializable {
-    Ex[] ex;
-    String nameOfTraining; //имя шаблона тренировки, используется для класса TrainingPlan
-    int check; //переменная для проверки были ли созданы шаблонные упражнения
-    static String fileName = "data/ExerciseSet.out";
+    public Ex[] ex;
+    private String nameOfTraining; //имя шаблона тренировки, используется для класса Gym.TrainingPlan
+    private int check; //переменная для проверки были ли созданы шаблонные упражнения
+    private static String fileName = "data/Gym.ExerciseSet.out";
 
     private static String[] musclesAll = {"Грудные", "Передние дельты", "Средние дельты", "Задняя дельта", "Бицепс", "Трапеции", "Трицепс", "Плечелучевая",
             "Лучевой разгибатель", "Круглый пронатор", "Зубчатая", "Косые мышцы", "Прямая мышца живота", "Квадрицпс", "Икры",
@@ -48,7 +50,7 @@ public class ExerciseSet implements Serializable {
 
 
     //Метод для создания шаблона упражнения пользователем
-    Ex create_ex(String[] musclesAll, String[] toolsAll) throws IOException {
+    public Ex create_ex() throws IOException {
         Scanner scanner = new Scanner(System.in); //для ввода с клавиатуры строк
         System.out.println("Введите название нового упражнения:");
 
@@ -93,7 +95,7 @@ public class ExerciseSet implements Serializable {
             ExerciseSet value = (ExerciseSet) DataPreserving.Read(fileName);
             return value;
         } catch (ClassNotFoundException | IOException exc) {
-            System.out.println("Error in the class ExerciseSet, getDataFromFile() catch exception, data is Resetting");
+            System.out.println("Error in the class Gym.ExerciseSet, getDataFromFile() catch exception, data is Resetting");
             DataPreserving.DataReset();
         }
         return new ExerciseSet();
@@ -107,4 +109,51 @@ public class ExerciseSet implements Serializable {
         return ex[index].getDescriptionEx();
     }
 
+    public String getNameOfTraining() {
+        return nameOfTraining;
+    }
+
+    public void setNameOfTraining(String nameOfTraining) {
+        this.nameOfTraining = nameOfTraining;
+    }
+
+    public static String getFileName() {
+        return fileName;
+    }
+
+    public Ex[] getEx() {
+        return ex;
+    }
+
+    public void setEx(Ex[] ex) {
+        this.ex = ex;
+    }
+
+    public int getCheck() {
+        return check;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
+    }
+
+    public static void setFileName(String fileName) {
+        ExerciseSet.fileName = fileName;
+    }
+
+    public static String[] getMusclesAll() {
+        return musclesAll;
+    }
+
+    public static void setMusclesAll(String[] musclesAll) {
+        ExerciseSet.musclesAll = musclesAll;
+    }
+
+    public static String[] getToolsAll() {
+        return toolsAll;
+    }
+
+    public static void setToolsAll(String[] toolsAll) {
+        ExerciseSet.toolsAll = toolsAll;
+    }
 }

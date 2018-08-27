@@ -1,23 +1,23 @@
 package Menu;
-import
+import Gym.*;
 
 import java.io.IOException;
 
 public class Statistics {
     public static void menu_watch_History() {
         Days days = (Days) Days.getDataFromFile(); //подгрузить из файла
-        if (days.chekDays == 1) { //Проверяем есть ли статистика занятий
+        if (days.getChekDays() == 1) { //Проверяем есть ли статистика занятий
 
             ExecutedExercise[] exsTempForPrintStatistics; //Создали вспомогательный массив объектов exs
 
             for (int j = 0; j < days.getDayLength(); j++) { //Перебираем дни
                 //Получаем массив exs из объекта day:
                 System.out.print("Тренировка от ");
-                System.out.printf("%02d", days.getDay()[j].dd);
+                System.out.printf("%02d", days.getDay()[j].getDd());
                 System.out.print(".");
-                System.out.printf("%02d", days.getDay()[j].mm);
+                System.out.printf("%02d", days.getDay()[j].getMm());
                 System.out.print(".");
-                System.out.printf("%02d", days.getDay()[j].yy);
+                System.out.printf("%02d", days.getDay()[j].getYy());
                 System.out.println(": ");
                 for (int k = 0; k < days.getDay()[j].getExsLength(); k++) { //Перебираем все выполненныые упражнения конкретного дня
                     System.out.print((int) (k + 1));
@@ -47,13 +47,13 @@ public class Statistics {
                 case (char) '1': { //очистить файл всех шаблонов тренировок
                     ExerciseSet exExampleEmpty = new ExerciseSet(new Ex()); //Пустой шаблон тренировок
                     TrainingPlan trainingPlan = new TrainingPlan(exExampleEmpty, ""); //Пустой массив тренировок
-                    DataPreserving.Save(trainingPlan, TrainingPlan.fileName); // Запись пустышки в файл
+                    DataPreserving.Save(trainingPlan, TrainingPlan.getFileName()); // Запись пустышки в файл
                 }
                 if (entrance == (char) '1') break;
 
 
                 case (char) '2': { //очистить файл всех шаблонов упражнений
-                    DataPreserving.Save(new ExerciseSet(new Ex()), ExerciseSet.fileName); // Запись пустышки в файл
+                    DataPreserving.Save(new ExerciseSet(new Ex()), ExerciseSet.getFileName()); // Запись пустышки в файл
                 }
                 if (entrance == (char) '2') break;
 

@@ -1,10 +1,12 @@
+package Gym;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Helper {
 
     //Функция очистки консольного ввода с клавиатуры в буфере
-    static void clear() throws IOException {
+    public static void clear() throws IOException {
         char ic;
         do {
             ic = (char) System.in.read();

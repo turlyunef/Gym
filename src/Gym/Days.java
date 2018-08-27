@@ -1,3 +1,5 @@
+package Gym;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Scanner;
@@ -7,9 +9,19 @@ import java.util.Scanner;
  * Состоит из массива объектов класса "Дней"
  */
 public class Days implements Serializable {
-    Day[] day;
-    int chekDays; //Переменная для проверки, был ли записан первый день в статистику.
-    public static String fileName = "data/Days.out";
+    public Day[] day; //Одна тренировка
+
+    private int chekDays; //Переменная для проверки, был ли записан первый день в статистику.
+    public static String fileName = "data/Gym.Days.out"; //Файл хранения истории выполнения тренировок
+
+    public int getChekDays() {
+        return chekDays;
+    }
+
+    public static String getFileName() {
+        return fileName;
+    }
+
 
     public Days() {
         this.day = new Day[1];
@@ -83,7 +95,7 @@ public class Days implements Serializable {
                 trainingPlan.exerciseSet[numberTrainingNow].ex[i].setCheсkExs(1);
                 DataPreserving.Save(trainingPlan, TrainingPlan.fileName);//Пересохраняем в файл планы тренировок, чтобы сохранилась отметка о выполнении этих упражнений
 
-                //Записываем статистику (выполненное упражнение exsNow) во временный объект класса Day, который содержит массив выполненных упражнений
+                //Записываем статистику (выполненное упражнение exsNow) во временный объект класса Gym.Day, который содержит массив выполненных упражнений
                 if (dayNow.chekDay == 0) {//Если упражнение первое в тренировке, используем перегруженный конструктор без перезаписи массива упражнений
                     dayNow = new Day(exsNow);
                     dayNow.chekDay = 1;
@@ -103,7 +115,7 @@ public class Days implements Serializable {
         }
     }
 
-    public int getDayLength() { //Возвращает количество элементов массива с объектами класса Day объекта класса Days
+    public int getDayLength() { //Возвращает количество элементов массива с объектами класса Gym.Day объекта класса Gym.Days
         return this.day.length;
     }
 
@@ -140,7 +152,7 @@ public class Days implements Serializable {
             Days value = (Days) DataPreserving.Read(fileName);
             return value;
         } catch (ClassNotFoundException | IOException exc) {
-            System.out.println("Error in the class Days, getDataFromFile() catch exception, data is Resetting");
+            System.out.println("Error in the class Gym.Days, getDataFromFile() catch exception, data is Resetting");
             DataPreserving.DataReset();
         }
         return new Days();

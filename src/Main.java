@@ -1,6 +1,8 @@
-
-import java.awt.*;
 import java.io.IOException;
+import Menu.Exercise;
+import Menu.Statistics;
+import Gym.*;
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -31,7 +33,7 @@ public class Main {
 
 //блок списка редактирования шаблонов упражнений
                 case (char) '2':
-                    Menu.Exercise.menu_exercise_Redaction();
+                    Exercise.menu_exercise_Redaction();
                     break;
 
                 case (char) '3':
@@ -39,11 +41,11 @@ public class Main {
                     break;
 
                 case (char) '4':
-                    Menu.Statistics.menu_watch_History(); //Посмотреть статистику
+                    Statistics.menu_watch_History(); //Посмотреть статистику
                     break;
 
                 case (char) '5':
-                    Menu.Statistics.menu_deleteHistory(); //Удалить данные
+                    Statistics.menu_deleteHistory(); //Удалить данные
                     break;
 
 //Выход из программы

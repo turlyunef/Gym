@@ -1,6 +1,6 @@
+package Gym;
+
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Класс "День". Состоит из:
@@ -8,7 +8,7 @@ import java.util.Date;
  * -переменных даты
  */
 public class Day extends DayDate implements Serializable {
-    ExecutedExercise[] exs;
+    public ExecutedExercise[] exs;
     int chekDay; //Переменная для проверки, было ли выполнено упражнение пользователем в текущий день, чтобы заполнить первый элемент
 
     public Day() {
@@ -24,9 +24,9 @@ public class Day extends DayDate implements Serializable {
     }
 
     public Day(Day day, ExecutedExercise exs) {
-        this.dd = day.dd;
-        this.mm = day.mm;
-        this.yy = day.yy;
+        this.setDd(day.getDd());
+        this.setMm(day.getMm());
+        this.setYy(day.getYy());
         this.chekDay = 1;
 
         this.exs = new ExecutedExercise[(day.exs.length) + 1]; //Создаем новый массив упражнений конкретного дня с количеством элементов на 1 больше, чем у внесенного через параметры
@@ -38,7 +38,7 @@ public class Day extends DayDate implements Serializable {
 
 
 
-    public int getExsLength() { //Возвращает количество элементов массива с объектами класса Exs объекта класса Day
+    public int getExsLength() { //Возвращает количество элементов массива с объектами класса Exs объекта класса Gym.Day
         return this.exs.length;
     }
 

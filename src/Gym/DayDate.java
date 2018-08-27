@@ -1,10 +1,36 @@
+package Gym;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DayDate {
-    int dd;
-    int mm;
-    int yy;
+    private int dd;
+    private int mm;
+    private int yy;
+
+    public int getDd() {
+        return dd;
+    }
+
+    public int getMm() {
+        return mm;
+    }
+
+    public int getYy() {
+        return yy;
+    }
+
+    public void setDd(int dd) {
+        this.dd = dd;
+    }
+
+    public void setMm(int mm) {
+        this.mm = mm;
+    }
+
+    public void setYy(int yy) {
+        this.yy = yy;
+    }
 
     public DayDate() {
         Date dateNow = new Date(); //Объект с информацией о дате выполнения тренировки
