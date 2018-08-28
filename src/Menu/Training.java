@@ -12,7 +12,7 @@ public class Training {
 
     //блок редактирования плана тренировки
 
-    public static void menu_TrainingPlanRedaction() throws IOException {
+    public static void TrainingRedaction() throws IOException {
         TrainingPlan trainingPlan;
         try {
             trainingPlan = (TrainingPlan) TrainingPlan.getDataFromFile(); //подгрузить из файла
@@ -36,7 +36,7 @@ public class Training {
             Other.clear(); //очищаем буфер
             if (entrance == (char) '1') { //Ветвь создания нового шаблона тренировки
                 ExerciseSet exerciseSet = (ExerciseSet) ExerciseSet.getDataFromFile();
-                if (ExerciseSet.getDataFromFile().getCheck() == 0) Exercise.menu_exercise_Redaction();
+                if (ExerciseSet.getDataFromFile().getCheck() == 0) Exercise.ExerciseRedaction();
                 //Заполняем план  первой тренировки через првый конструктор класса Data.TrainingPlan
                 System.out.println("Введите название новой тренировки:");
                 String nameOfTraining = scanner.nextLine();

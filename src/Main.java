@@ -1,14 +1,10 @@
 import java.io.IOException;
 
-import Data.*;
-import Menu.*;
 import Gym.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
-
 
         char entrance; //переменная управления самым главным меню
 
@@ -28,25 +24,24 @@ public class Main {
             switch (entrance) {
 //блок плана тренировки
                 case (char) '1': {
-                    Training.menu_TrainingPlanRedaction();
+                    Menu.Training.TrainingRedaction();
                 }
                 break;
 
-//блок списка редактирования шаблонов упражнений
                 case (char) '2':
-                    Exercise.menu_exercise_Redaction();
+                    Menu.Exercise.ExerciseRedaction(); //редактировать шаблоны упражнений
                     break;
 
                 case (char) '3':
-                    Days.menu_working(); //Начать тренировку
+                    Menu.Working.doTheWorkout(); //Начать тренировку
                     break;
 
                 case (char) '4':
-                    Statistics.menu_watch_History(); //Посмотреть статистику
+                    Menu.Statistics.watch_History(); //Посмотреть статистику
                     break;
 
                 case (char) '5':
-                    Statistics.menu_deleteHistory(); //Удалить данные
+                    Menu.Statistics.deleteHistory(); //Удалить данные
                     break;
 
 //Выход из программы

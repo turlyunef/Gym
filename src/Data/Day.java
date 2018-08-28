@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class Day extends DayDate implements Serializable {
     public ExecutedExercise[] exs;
-    int chekDay; //Переменная для проверки, было ли выполнено упражнение пользователем в текущий день, чтобы заполнить первый элемент
+    private int chekDay; //Переменная для проверки, было ли выполнено упражнение пользователем в текущий день, чтобы заполнить первый элемент
 
     public Day() {
         this.exs = new ExecutedExercise[1];
@@ -44,5 +44,11 @@ public class Day extends DayDate implements Serializable {
         return this.exs.length;
     }
 
+    public int getChekDay() {
+        return chekDay;
+    }
 
+    public void setChekDay(int chekDay) {
+        this.chekDay = chekDay;
+    }
 }

@@ -62,4 +62,24 @@ public class Ex implements Serializable {
     public String[] getToolsEx() {
         return toolsEx;
     }
+
+    public void setNameEx(String nameEx) {
+        this.nameEx = nameEx;
+    }
+
+    public void setDescriptionEx(String descriptionEx) {
+        this.descriptionEx = descriptionEx;
+    }
+
+    public void setCheckExs(int checkExs) {
+        this.checkExs = checkExs;
+    }
+
+    public void setMusclesEx(String[] musclesEx) {
+        this.musclesEx = musclesEx;
+    }
+
+    public void setToolsEx(String[] toolsEx) {
+        this.toolsEx = toolsEx;
+    }
 }

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Exercise {
     //Редактировать упражнения
-    public static void menu_exercise_Redaction() throws IOException {
+    public static void ExerciseRedaction() throws IOException {
 
         ExerciseSet exExample = (ExerciseSet) ExerciseSet.getDataFromFile();
         for (; ; ) {

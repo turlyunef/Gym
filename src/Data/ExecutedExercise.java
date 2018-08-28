@@ -9,8 +9,8 @@ import java.io.Serializable;
  * -массив подходов
  */
 public class ExecutedExercise extends Ex implements Serializable {
-    int weight;
-    int[] amount;
+    private int weight;
+    private int[] amount;
 
     public ExecutedExercise() {
         int emptyArrayInt[] = {0}; // Пустышка массив количеств подходов
@@ -28,6 +28,22 @@ public class ExecutedExercise extends Ex implements Serializable {
     public ExecutedExercise(int weight, int[] amount, Ex ex) {
         super(ex.getNameEx(), ex.getDescriptionEx(), ex.getMusclesEx(), ex.getToolsEx());
         this.weight = weight;
+        this.amount = amount;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int[] getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int[] amount) {
         this.amount = amount;
     }
 }

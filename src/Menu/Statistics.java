@@ -5,7 +5,7 @@ import Gym.*;
 import java.io.IOException;
 
 public class Statistics {
-    public static void menu_watch_History() {
+    public static void watch_History() {
         Days days = (Days) Days.getDataFromFile(); //подгрузить из файла
         if (days.getChekDays() == 1) { //Проверяем есть ли статистика занятий
 
@@ -34,7 +34,7 @@ public class Statistics {
         } else System.out.println("История тренировок пустая");
     }
 
-    public static void menu_deleteHistory() throws IOException {
+    public static void deleteHistory() throws IOException {
         for (; ; ) {
             System.out.println("Введите:\n0 - Выход в предыдущее меню;\n1 - Очистить файл всех тренировок;\n2 - Всех шаблонов упражнений\n" +
                     "3 - Статистику занятий\n4 - Удалить все данные приложения");
@@ -61,7 +61,7 @@ public class Statistics {
 
                 case (char) '3': { //очистить файл статистики занятий
                     Day day = new Day(new ExecutedExercise());//Заносим результат в пустой день
-                    DataPreserving.Save(new Days(day), Days.fileName); // Запись пустышки в файл
+                    DataPreserving.Save(new Days(day), Days.getFileName()); // Запись пустышки в файл
                 }
                 break;
                 default: {
