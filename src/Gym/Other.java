@@ -1,9 +1,11 @@
 package Gym;
 
+import Data.Ex;
+
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Helper {
+public class Other {
 
     //Функция очистки консольного ввода с клавиатуры в буфере
     public static void clear() throws IOException {
@@ -15,7 +17,7 @@ public class Helper {
     }
 
     //Функция ввода с клавиатуры и записи в динамический массив целых чисел
-    static int[] amountInput(int[] A, String Phrase) throws IOException {
+    public static int[] amountInput(int[] A, String Phrase) throws IOException {
         Scanner scanner = new Scanner(System.in); //для ввода с клавиатуры строк
         System.out.println(Phrase); //Выводим ключевую фразу
         int a = Integer.parseInt(scanner.nextLine());
@@ -47,7 +49,7 @@ public class Helper {
 
 
     //Функция ввода с клавиатуры и записи в динамический массив целых чисел
-    static String[] stringInput(String Phrase, String[] listOfKey) throws IOException {
+    public static String[] stringInput(String Phrase, String[] listOfKey) throws IOException {
         Scanner scanner = new Scanner(System.in); //для ввода с клавиатуры строк
         String[] stringOut = {"Не заполнено"};
         System.out.println(Phrase); //Выводим ключевую фразу

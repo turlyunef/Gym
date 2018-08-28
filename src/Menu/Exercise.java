@@ -1,6 +1,6 @@
 package Menu;
-import Gym.Helper;
-import Gym.ExerciseSet;
+import Gym.Other;
+import Data.ExerciseSet;
 import Gym.DataPreserving;
 
 
@@ -17,11 +17,11 @@ public class Exercise {
 
             if (exExample.getCheck() == 0) System.out.println("Упражнений еще не создавалось");
             else
-                Helper.exerciseSetPrint("Доступные упражнения", exExample.ex); //Метод вывода на экран доступных шаблнных упражнений
+                Other.exerciseSetPrint("Доступные упражнения", exExample.ex); //Метод вывода на экран доступных шаблнных упражнений
 
             System.out.println("Создать новое упражнение? 1 - Да, 2 - Нет");
             char entrance = (char) System.in.read(); //вводим с клавиатуры управляющий номер
-            Helper.clear();//Очищаем буфер ввода
+            Other.clear();//Очищаем буфер ввода
 
             if (entrance == (char) '1') { //Ветвь создания нового упражнения
                 if (exExample.getCheck() == 0) { //Если упражнение первое, то используется перегруженный конструктор с аргументом вносимого упражнения
@@ -37,7 +37,7 @@ public class Exercise {
                 DataPreserving.Save(exExample, ExerciseSet.getFileName());
             }
 
-            if (Helper.quit())
+            if (Other.quit())
                 break; //вызов метода для возврата в предыдущее меню, пользователь должен нажать Q
         }
     }

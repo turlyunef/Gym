@@ -1,6 +1,7 @@
 import java.io.IOException;
-import Menu.Exercise;
-import Menu.Statistics;
+
+import Data.*;
+import Menu.*;
 import Gym.*;
 
 public class Main {
@@ -23,11 +24,11 @@ public class Main {
                     "Q - Выход из программы");
 
             entrance = (char) System.in.read(); //вводим с клавиатуры управляющий номер
-            Helper.clear(); //Очищаем буфер ввода
+            Other.clear(); //Очищаем буфер ввода
             switch (entrance) {
 //блок плана тренировки
                 case (char) '1': {
-                    TrainingPlan.menu_TrainingPlanRedaction();
+                    Training.menu_TrainingPlanRedaction();
                 }
                 break;
 

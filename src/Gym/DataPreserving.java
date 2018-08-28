@@ -4,6 +4,10 @@ package Gym; /**
  * Read - статичный метод для чтения файла
  */
 
+import Data.Days;
+import Data.ExerciseSet;
+import Data.TrainingPlan;
+
 import java.io.*;
 
 public class DataPreserving {
@@ -32,9 +36,9 @@ public class DataPreserving {
     //Перезаписывает все файлы хранения данных пустыми данными(первый запуск программы)
     public static void DataReset() {
         System.out.println("История и шаблоны недоступны");
-        Save(new ExerciseSet(), ExerciseSet.getFileName()); // Запись пустого инстанса Gym.ExerciseSet в файл
-        Save(new TrainingPlan(), TrainingPlan.fileName); // Запись пустого инстанса Gym.TrainingPlan в файл
-        Save(new Days(), Days.fileName); // Запись пустого инстанса Gym.Days в файл
+        Save(new ExerciseSet(), ExerciseSet.getFileName()); // Запись пустого инстанса Data.ExerciseSet в файл
+        Save(new TrainingPlan(), TrainingPlan.getFileName()); // Запись пустого инстанса Data.TrainingPlan в файл
+        Save(new Days(), Days.getFileName()); // Запись пустого инстанса Data.Days в файл
 
     }
 }

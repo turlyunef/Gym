@@ -1,4 +1,7 @@
-package Gym;
+package Data;
+
+import Gym.DataPreserving;
+import Gym.Other;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -9,9 +12,9 @@ import java.util.Scanner;
  */
 public class ExerciseSet implements Serializable {
     public Ex[] ex;
-    private String nameOfTraining; //имя шаблона тренировки, используется для класса Gym.TrainingPlan
+    private String nameOfTraining; //имя шаблона тренировки, используется для класса Data.TrainingPlan
     private int check; //переменная для проверки были ли созданы шаблонные упражнения
-    private static String fileName = "data/Gym.ExerciseSet.out";
+    private static String fileName = "data/Data.ExerciseSet.out";
 
     private static String[] musclesAll = {"Грудные", "Передние дельты", "Средние дельты", "Задняя дельта", "Бицепс", "Трапеции", "Трицепс", "Плечелучевая",
             "Лучевой разгибатель", "Круглый пронатор", "Зубчатая", "Косые мышцы", "Прямая мышца живота", "Квадрицпс", "Икры",
@@ -82,8 +85,8 @@ public class ExerciseSet implements Serializable {
         System.out.println("Введите описание нового упражнения:");
         description = scanner.nextLine();
 
-        muscles = Helper.stringInput("Введите номер мышцы из списка ниже, либо введите 0, если закончили заполнение. ", musclesAll);
-        tools = Helper.stringInput("Введите номе требуемых тренажеров или снарядов из списка, либо введите 0, если закончили заполнение. ", toolsAll);
+        muscles = Other.stringInput("Введите номер мышцы из списка ниже, либо введите 0, если закончили заполнение. ", musclesAll);
+        tools = Other.stringInput("Введите номе требуемых тренажеров или снарядов из списка, либо введите 0, если закончили заполнение. ", toolsAll);
 
         Ex exTemp = new Ex(name, description, muscles, tools); //временный объект класса упражнений для возврата из метода.
         return exTemp;
@@ -95,7 +98,7 @@ public class ExerciseSet implements Serializable {
             ExerciseSet value = (ExerciseSet) DataPreserving.Read(fileName);
             return value;
         } catch (ClassNotFoundException | IOException exc) {
-            System.out.println("Error in the class Gym.ExerciseSet, getDataFromFile() catch exception, data is Resetting");
+            System.out.println("Error in the class Data.ExerciseSet, getDataFromFile() catch exception, data is Resetting");
             DataPreserving.DataReset();
         }
         return new ExerciseSet();

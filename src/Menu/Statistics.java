@@ -1,4 +1,5 @@
 package Menu;
+import Data.*;
 import Gym.*;
 
 import java.io.IOException;
@@ -22,8 +23,8 @@ public class Statistics {
                 for (int k = 0; k < days.getDay()[j].getExsLength(); k++) { //Перебираем все выполненныые упражнения конкретного дня
                     System.out.print((int) (k + 1));
                     System.out.println(". Название: " + days.day[j].exs[k].getNameEx());
-                    Helper.printArrayOfString(days.day[j].exs[k].getMusclesEx(), "Мышцы");
-                    Helper.printArrayOfString(days.day[j].exs[k].getToolsEx(), "Тренажеры");
+                    Other.printArrayOfString(days.day[j].exs[k].getMusclesEx(), "Мышцы");
+                    Other.printArrayOfString(days.day[j].exs[k].getToolsEx(), "Тренажеры");
                     System.out.print("   Выполнено ");
                     days.printWeightAndAmount(j, k); //Метод вывода на экран веса и количества подходов, где j - конкретный день, k - выполненное упражнение в этот день
                 }
@@ -38,7 +39,7 @@ public class Statistics {
             System.out.println("Введите:\n0 - Выход в предыдущее меню;\n1 - Очистить файл всех тренировок;\n2 - Всех шаблонов упражнений\n" +
                     "3 - Статистику занятий\n4 - Удалить все данные приложения");
             char entrance = (char) System.in.read(); //вводим с клавиатуры управляющий номер
-            Helper.clear(); //Очищаем буфер ввода
+            Other.clear(); //Очищаем буфер ввода
             switch (entrance) {
                 case (char) '0':
                     break; //Выход в предыдущее меню

@@ -1,10 +1,10 @@
-package Gym;
+package Data;
 
 import java.io.Serializable;
 
 /**
  * Класс "Упражнение конкретного дня". Состоит из
- * -переменные класса Gym.Ex
+ * -переменные класса Data.Ex
  * -вес
  * -массив подходов
  */

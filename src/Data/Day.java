@@ -1,4 +1,6 @@
-package Gym;
+package Data;
+
+import Gym.DayDate;
 
 import java.io.Serializable;
 
@@ -38,7 +40,7 @@ public class Day extends DayDate implements Serializable {
 
 
 
-    public int getExsLength() { //Возвращает количество элементов массива с объектами класса Exs объекта класса Gym.Day
+    public int getExsLength() { //Возвращает количество элементов массива с объектами класса Exs объекта класса Data.Day
         return this.exs.length;
     }
 
